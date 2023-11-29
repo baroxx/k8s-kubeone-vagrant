@@ -1,3 +1,7 @@
+# k8s-kubeone-vagrant
+
+This project provides an example setup for a Kubernetes cluster with KubeOne. The nodes for the cluster can be provisioned with Vagrant.
+
 # Prerequisits
 
 This
@@ -7,7 +11,7 @@ This
 
 # Load Balancer
 
-Run these commands on node-1:
+Perform these steps on node-1:
 
 - Copy [Dockerfile](haproxy/Dockerfile) to node-1
 - Copy [haproxy.cfg](haproxy/haproxy.cfg) to node-1
@@ -25,8 +29,6 @@ Run this commands on node-1:
 docker run -p 9090:8080 -d --restart always --name keycloak -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:22.0.5 start-dev
 ```
 
-
-
 # Cluster setup
 
 1. run "kubeone config print --full >> kubeone.yaml"
@@ -38,5 +40,3 @@ docker run -p 9090:8080 -d --restart always --name keycloak -e KEYCLOAK_ADMIN=ad
     5. set values for staticWorkers (ssh setup for non root user)
     6. set values for apiEndpoint (loadbalancer IP + port from node-1)
 3. run "kubeone apply -m kubeone.yaml"
-
-# 
