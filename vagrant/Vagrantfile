@@ -1,0 +1,35 @@
+BOX = "flatcar"
+BOX_VERSION = "0"
+CPUS = 2
+MEMORY = "4096"
+USER_NAME = "kubeone"
+PASSWORD = "pass"
+KEYMAP = "de"
+
+SSH_KEY = ""
+
+NUMBER_OF_NODES=6
+NODE_IP_RANGE="192.168.56." # keep the last number empty
+
+Vagrant.configure("2") do |config|
+
+    (1..NUMBER_OF_NODES).each do |i|
+        config.vm.define "node-#{i}" do |node|
+            node.vm.box = BOX
+            node.vm.box_version = BOX_VERSION
+
+            node.vm.provider "virtualbox" do |vbnodes|
+                vbnodes.name = "k8s-node-#{i}"
+                vbnodes.cpus = CPUS
+                vbnodes.memory = MEMORY
+            end
+
+            node.vm.network "private_network", ip: NODE_IP_RANGE+"#{i + 10}"
+            node.vm.hostname = "node-#{i}"
+            
+            node.vm.provision "main", type: "shell", args: [USER_NAME, PASSWORD, KEYMAP, SSH_KEY], path: "provisioner/main.sh"
+        end
+    end
+    
+end
+  
