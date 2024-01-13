@@ -12,6 +12,7 @@ usermod -aG wheel $USER_NAME
 usermod -aG sudo $USER_NAME
 
 SSH_DIR=/home/$USER_NAME/.ssh
+mkdir -p $SSH_DIR
 echo $SSH_KEY >> $SSH_DIR/authorized_keys
 chown -R $USER_NAME:$USER_NAME $SSH_DIR
 
